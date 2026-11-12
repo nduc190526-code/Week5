@@ -1,66 +1,59 @@
 package Bai4bonus;
 
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 class WordCounter {
-    HashMap<String, Integer> map = new HashMap<>();
+    private HashMap<String, Integer> wordMap = new HashMap<>();
 
     public void analyze(String text) {
-        text = text.toLowerCase();
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-
-            if (c >= 'a' && c <= 'z' || c == ' ') {
-                sb.append(c);
-            } else {
-                sb.append(' ');
-            }
-        }
-
-        text = sb.toString();
+        text = text.toLowerCase().replaceAll("[.,]", "");
 
         String[] words = text.trim().split("\\s+");
 
         for (String word : words) {
-            if (map.containsKey(word)) {
-                map.put(word, map.get(word) + 1);
+            if (word.isEmpty()) continue;
+
+            if (wordMap.containsKey(word)) {
+                wordMap.put(word, wordMap.get(word) + 1);
             } else {
-                map.put(word, 1);
+                wordMap.put(word, 1);
             }
         }
     }
 
     public void displayResult() {
+        System.out.println("Danh sach tu va so lan xuat hien:");
+
+        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+        // Tim tu xuat hien nhieu nhat
         String maxWord = "";
         int maxCount = 0;
 
-        for (String word : map.keySet()) {
-            int count = map.get(word);
-
-            System.out.println(word + ": " + count);
-
-            if (count > maxCount) {
-                maxCount = count;
-                maxWord = word;
+        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                maxCount = entry.getValue();
+                maxWord = entry.getKey();
             }
         }
 
-        System.out.println("Most frequent word: " + maxWord);
-        System.out.println("Count: " + maxCount);
+        if (!maxWord.isEmpty()) {
+            System.out.println("Tu xuat hien nhieu nhat: "
+                    + maxWord + " (" + maxCount + " lan)");
+        }
     }
 }
 
 public class main {
     public static void main(String[] args) {
+        WordCounter counter = new WordCounter();
+
         String text = "Hello world. This is a java program. Hello java, hello world.";
 
-        WordCounter wc = new WordCounter();
-
-        wc.analyze(text);
-        wc.displayResult();
+        counter.analyze(text);
+        counter.displayResult();
     }
 }

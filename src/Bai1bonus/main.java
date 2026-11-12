@@ -14,7 +14,6 @@ public class main {
         long end = System.currentTimeMillis();
 
         System.out.println("String time: " + (end - start) + " ms");
-        System.out.println("String length: " + str.length());
     }
 
     public static void useStringBuffer() {
@@ -29,7 +28,6 @@ public class main {
         long end = System.currentTimeMillis();
 
         System.out.println("StringBuffer time: " + (end - start) + " ms");
-        System.out.println("StringBuffer length: " + sb.length());
     }
 
     public static void contentAnalysis(String text) {
